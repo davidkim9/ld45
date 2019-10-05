@@ -1,5 +1,7 @@
 # LD45
 
+Experimenting with ThreeJS and Redux
+
 - [LD45](#ld45)
   - [Prerequisites](#prerequisites)
   - [Get started](#get-started)
