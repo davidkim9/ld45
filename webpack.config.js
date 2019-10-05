@@ -3,6 +3,8 @@ const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
+let productPackage = require('./package');
+
 let devtool, scssLoaders, plugins, styleLoaders;
 const development = process.env.NODE_ENV !== 'production';
 
@@ -28,6 +30,16 @@ scssLoaders = [
   },
 ];
 
+function getDefinePlugin() {
+    let config = {
+        // Do not expose debug/logs in production environment
+        DEBUG  : JSON.stringify(development),
+        VERSION: JSON.stringify(productPackage.version)
+    };
+
+    return new webpack.DefinePlugin(config);
+}
+
 if (development === true) {
   // Development
   devtool = 'inline-source-map';
@@ -35,7 +47,7 @@ if (development === true) {
     'style-loader',
     ...scssLoaders
   ];
-  plugins = [new webpack.HotModuleReplacementPlugin()];
+  plugins = [getDefinePlugin(), new webpack.HotModuleReplacementPlugin()];
 } else {
   // Production  
   styleLoaders = [{
@@ -43,11 +55,12 @@ if (development === true) {
     },
     ...scssLoaders
   ];
-  plugins = [new MiniCssExtractPlugin({
-    filename: 'style.css'
-  })];
+  plugins = [getDefinePlugin(), 
+    new MiniCssExtractPlugin({
+      filename: 'style.css'
+    })
+  ];
 }
-
 
 module.exports = {
   devtool,
@@ -65,13 +78,8 @@ module.exports = {
   module: {
     rules: [{
         test: /\.js$/,
-        exclude: /(node_modules)/,
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-            plugins: ['@babel/plugin-proposal-object-rest-spread'],
-          },
+          loader: 'babel-loader'
         },
       },
       {

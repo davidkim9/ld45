@@ -1,10 +1,6 @@
-# Base Web
+# LD45
 
-A development environment to build JS/SCSS projects.
-
-This environment [supports ES8](https://babeljs.io/docs/en/6.26.3/babel-preset-env)
-
-- [Base Web](#base-web)
+- [LD45](#ld45)
   - [Prerequisites](#prerequisites)
   - [Get started](#get-started)
   - [Build](#build)
