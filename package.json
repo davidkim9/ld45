@@ -38,6 +38,8 @@
   "dependencies": {
     "noisejs": "^2.1.0",
     "postprocessing": "^6.8.2",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "three": "^0.108.0"
   }
 }
