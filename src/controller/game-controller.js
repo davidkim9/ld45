@@ -4,6 +4,7 @@ import { addShip } from '../action/add-ship';
 import { changeShip } from '../action/change-ship';
 import { addProjectile } from '../action/add-projectile';
 import { removeShip } from '../action/remove-ship';
+import { removeProjectile } from '../action/remove-projectile';
 import { setShips, setTime } from '../action/actions';
 import { Logger } from '../util/logger';
 import { getShips, getTime, getProjectiles } from '../model/selector/selectors';
@@ -21,13 +22,12 @@ export class GameController {
   }
 
   checkCollision(ship, projectile) {
+    let hitTiles = [];
     let transform = new Matrix4();
     transform.makeRotationY(ship.rotation);
     transform.setPosition(ship.position[0], ship.position[1], ship.position[2]);
 
-    let shipSchematic = ship.schematic;
-    let shipGeometry = getShipGeometry(shipSchematic);
-
+    // TODO Add a way to check bounding box of ship schematic before performing independent collision checks
     let position = new Vector3();
     position.fromArray(projectile.position);
     
@@ -35,17 +35,16 @@ export class GameController {
     direction.fromArray(projectile.direction);
 
     let target = new Vector3();
-
+    let shipSchematic = ship.schematic;
+    let shipGeometry = getShipGeometry(shipSchematic);
     let projectileRay = new Ray(position, direction);
-    let hitTiles = [];
 
     for (let i = 0; i < shipGeometry.length; i++) {
       for (let j = 0; j < shipGeometry[i].length; j++) {
         let box = shipGeometry[i][j];
         if (box !== null) {
           box.applyMatrix4( transform );
-          let ray = projectileRay.intersectBox(box, target);
-          if (ray !== null) {
+          if (projectileRay.intersectBox(box, target) !== null) {
             let distance = position.clone().sub(target);
             hitTiles.push({
               x: j,
@@ -71,6 +70,7 @@ export class GameController {
         position[0] -= 0.005;
         position[2] += 0.005;
         ship.position = position;
+        ship.rotation += 0.05;
         ships[i] = ship;
       }
       this.store.dispatch(setShips(ships));
@@ -93,11 +93,11 @@ export class GameController {
         [0, 2, 2, 2, 2, 2, 0],
       ],
     }));
-
+    
     // TODO Add type to create non linear projectiles
     this.store.dispatch(addProjectile({
       id: 0,
-      position: [3.1, 0, 0],
+      position: [3.2, 0, 0],
       direction: [-1, 0, 0],
       time: getTime(this.store.getState())
     }));
@@ -109,23 +109,27 @@ export class GameController {
     let projectiles = getProjectiles(this.store.getState());
     for (let ship of ships) {
       for (let projectile of projectiles) {
-        let hitTiles = this.checkCollision(ship, projectile, time);
-        ship.schematic = [...ship.schematic];
+        let hitTiles = this.checkCollision(ship, projectile);
         let newSchematic = ship.schematic.map(arr => [...arr]);
         let shipChanged = false;
         for (let i = 0; i < hitTiles.length; i++) {
           let hit = hitTiles[i];
-          hit.t - dt
+          // Register hits if it lands between the last frame and this frame
           if (hit.t < time && hit.t > time - dt) {
             shipChanged = true;
             newSchematic[hit.y][hit.x] = 0;
           }
         }
-        ship.schematic = newSchematic;
-
         if (shipChanged === true) {
+          ship.schematic = newSchematic;
           this.store.dispatch(changeShip(ship.id, ship));
         }
+      }
+    }
+
+    for (let projectile of projectiles) {
+      if (time - projectile.time > 5) {
+        this.store.dispatch(removeProjectile(projectile.id));
       }
     }
   }

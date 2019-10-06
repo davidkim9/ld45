@@ -3,7 +3,8 @@ import { useThree } from 'react-three-fiber';
 export const Camera = () => {
   const { camera, scene, viewport } = useThree();
   // camera.position.set(20, 20, 20);
-  camera.position.set(0, 2, 0);
+  camera.position.set(1, 1, 1);
+  // camera.position.set(0, 2, 0);
   let aspect = viewport.width / viewport.height;
   let D = 1;
   camera.left = -D * aspect;
