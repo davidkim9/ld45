@@ -19,7 +19,9 @@ export function getNewStore(initialState) {
 
 export function getInitialState() {
   let state = {
-    entities: [{}, {}],
+    effects: [],
+    projectiles: [],
+    ships: [],
     time: 0
   };
 

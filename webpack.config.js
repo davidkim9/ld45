@@ -66,7 +66,9 @@ module.exports = {
   devtool,
   devServer: {
     contentBase: './www',
-    hot: development
+    disableHostCheck: true,
+    host: '0.0.0.0',
+    hot: development,
   },
   entry: './src/index.js',
   output: {

@@ -1,8 +1,26 @@
 import * as ActionTypes from './action-types';
 
-export function entities(state, action) {
+export function effects(state, action) {
   switch (action.type) {
-    case ActionTypes.ENTITIES_DID_CHANGE:
+    case ActionTypes.EFFECTS_DID_CHANGE:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
+export function projectiles(state, action) {
+  switch (action.type) {
+    case ActionTypes.PROJECTILES_DID_CHANGE:
+      return action.payload;
+    default:
+      return state;
+  }
+}
+
+export function ships(state, action) {
+  switch (action.type) {
+    case ActionTypes.SHIPS_DID_CHANGE:
       return action.payload;
     default:
       return state;

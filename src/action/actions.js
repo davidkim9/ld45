@@ -1,8 +1,22 @@
 import * as ActionTypes from '../model/action-types';
 
-export function setEntities(state) {
+export function setEffects(state) {
   return {
-    type: ActionTypes.ENTITIES_DID_CHANGE,
+    type: ActionTypes.EFFECTS_DID_CHANGE,
+    payload: state
+  };
+}
+
+export function setProjectiles(state) {
+  return {
+    type: ActionTypes.PROJECTILES_DID_CHANGE,
+    payload: state
+  };
+}
+
+export function setShips(state) {
+  return {
+    type: ActionTypes.SHIPS_DID_CHANGE,
     payload: state
   };
 }
