@@ -4,8 +4,9 @@ import { Canvas } from 'react-three-fiber';
 
 import { Camera } from './three/camera';
 import { Effects } from './three/effects';
-import Ships from './three/ships';
 import { Lights } from './three/lights';
+import Projectiles from './three/projectiles';
+import Ships from './three/ships';
 
 export class Root extends React.Component {
   constructor(props, context) {
@@ -19,6 +20,7 @@ export class Root extends React.Component {
         <Lights/>
         <Provider store={this.props.store}>
           <Ships/>
+          <Projectiles/>
         </Provider>
         <Camera/>
         <Effects/>

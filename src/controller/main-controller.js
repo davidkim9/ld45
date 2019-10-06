@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { addShip } from '../action/add-ship';
+import { addProjectile } from '../action/add-projectile';
 import { removeShip } from '../action/remove-ship';
-import { setShips } from '../action/actions';
+import { setShips, setTime } from '../action/actions';
 import { Logger } from '../util/logger';
 import { getShips, getTime } from '../model/selector/selectors';
 import { getNewStore, getInitialState } from '../model/store';
@@ -25,22 +26,22 @@ export default class MainController {
     this.timeManager.start();
     this.render();
 
-    setInterval(()=>{
-      let ships = [...getShips(this.store.getState())];
-      for (let i = 0; i < ships.length; i++) {
-        let ship = {...ships[i]};
-        let position = [...ship.position];
-        position[0] += 0.005;
-        // position[2] += 0.005;
-        ship.position = position;
-        ships[i] = ship;
-      }
-      this.store.dispatch(setShips(ships));
-    }, 16);
+    // setInterval(()=>{
+    //   let ships = [...getShips(this.store.getState())];
+    //   for (let i = 0; i < ships.length; i++) {
+    //     let ship = {...ships[i]};
+    //     let position = [...ship.position];
+    //     position[0] += 0.005;
+    //     // position[2] += 0.005;
+    //     ship.position = position;
+    //     ships[i] = ship;
+    //   }
+    //   this.store.dispatch(setShips(ships));
+    // }, 16);
 
-    setTimeout(()=>{
-      this.store.dispatch(removeShip(0));
-    }, 2000);
+    // setTimeout(()=>{
+    //   this.store.dispatch(removeShip(0));
+    // }, 2000);
 
     for (let i = 0; i < 2; i++) {
       this.store.dispatch(addShip({
@@ -57,6 +58,15 @@ export default class MainController {
         ],
       }));
     }
+
+    // TODO Add type to create non linear projectiles
+    this.store.dispatch(addProjectile({
+      id: 0,
+      position: [0, 0, 0],
+      direction: [-0.1, 0, 0],
+      speed: 0.1,
+      time: getTime(this.store.getState())
+    }));
   }
 
   render() {
@@ -65,6 +75,6 @@ export default class MainController {
 
   update(dt) {
     let currentTime = getTime(this.store.getState());
-    // this.store.dispatch(setTime(currentTime + dt));
+    this.store.dispatch(setTime(currentTime + dt));
   }
 }
