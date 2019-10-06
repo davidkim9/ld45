@@ -61,20 +61,19 @@ export class GameController {
   }
 
   addScene() {
-
-    setInterval(()=>{
-      let ships = [...getShips(this.store.getState())];
-      for (let i = 0; i < ships.length; i++) {
-        let ship = {...ships[i]};
-        let position = [...ship.position];
-        position[0] -= 0.005;
-        position[2] += 0.005;
-        ship.position = position;
-        ship.rotation += 0.05;
-        ships[i] = ship;
-      }
-      this.store.dispatch(setShips(ships));
-    }, 16);
+    // setInterval(()=>{
+    //   let ships = [...getShips(this.store.getState())];
+    //   for (let i = 0; i < ships.length; i++) {
+    //     let ship = {...ships[i]};
+    //     let position = [...ship.position];
+    //     position[0] -= 0.005;
+    //     position[2] += 0.005;
+    //     ship.position = position;
+    //     ship.rotation += 0.05;
+    //     ships[i] = ship;
+    //   }
+    //   this.store.dispatch(setShips(ships));
+    // }, 16);
 
     // setTimeout(()=>{
     //   this.store.dispatch(removeShip(0));
@@ -82,8 +81,10 @@ export class GameController {
 
     this.store.dispatch(addShip({
       id: 0,
-      position: [1, 0, -1],
-      rotation: 45 * Math.PI / 180,
+      position: [0, 0, 0],
+      velocity: [0, 0, 0],
+      acceleration: [0, 0, 0],
+      rotation: 0,
       schematic: [
         [0, 0, 0, 2, 0, 0, 0],
         [0, 0, 2, 2, 2, 0, 0],
@@ -102,7 +103,7 @@ export class GameController {
         direction: [-1, 0, 0],
         time: getTime(this.store.getState())
       }));
-    }, 100);
+    }, 500);
   }
 
   update(dt) {
@@ -110,6 +111,17 @@ export class GameController {
     let ships = getShips(this.store.getState());
     let projectiles = getProjectiles(this.store.getState());
     for (let ship of ships) {
+      
+      // Handle Ship Movement
+      ship.velocity = [ship.velocity[0] + ship.acceleration[0], ship.velocity[1] + ship.acceleration[1], ship.velocity[2] + ship.acceleration[2]];
+      ship.velocity[0] = Math.min(ship.velocity[0], 1);
+      ship.velocity[1] = Math.min(ship.velocity[1], 1);
+      ship.velocity[2] = Math.min(ship.velocity[2], 1);
+      ship.position = [ship.position[0] + ship.velocity[0], ship.position[1] + ship.velocity[1], ship.position[2] + ship.velocity[2]];
+      ship.acceleration = [0, 0, 0];
+// console.log(ship);
+
+      // Check Projectile Collision
       for (let projectile of projectiles) {
         let hitTiles = this.checkCollision(ship, projectile);
         let newSchematic = ship.schematic.map(arr => [...arr]);
@@ -125,9 +137,10 @@ export class GameController {
         }
         if (shipChanged === true) {
           ship.schematic = newSchematic;
-          this.store.dispatch(changeShip(ship.id, ship));
+          this.store.dispatch(removeProjectile(projectile.id));
         }
       }
+      this.store.dispatch(changeShip(ship.id, ship));
     }
 
     for (let projectile of projectiles) {

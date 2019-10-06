@@ -7,6 +7,7 @@ import { Logger } from '../util/logger';
 import { getTime } from '../model/selector/selectors';
 import { getNewStore, getInitialState } from '../model/store';
 import { Root } from '../view/root';
+import { PlayerController } from './player-controller';
 
 export default class MainController {
   constructor() {
@@ -15,6 +16,7 @@ export default class MainController {
     
     this.store = getNewStore(getInitialState());
     this.gameController = new GameController(this.store);
+    this.playerController = new PlayerController(this.store);
   }
 
   init() {
@@ -23,12 +25,17 @@ export default class MainController {
   }
 
   render() {
-    ReactDOM.render(<Root update={dt => this.update(dt)} store={this.store}/>, document.getElementById('container'));
+    ReactDOM.render(<Root 
+      update={dt => this.update(dt)} 
+      store={this.store} 
+      keyHandler={event => this.playerController.keyHandler(event)}
+    />, document.getElementById('container'));
   }
 
   update(dt) {
     let currentTime = getTime(this.store.getState());
     this.store.dispatch(setTime(currentTime + dt));
+    this.playerController.update(dt);
     this.gameController.update(dt);
   }
 }

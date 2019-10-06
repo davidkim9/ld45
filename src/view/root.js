@@ -18,18 +18,20 @@ export class Root extends React.Component {
       useFrame((state, dt) => this.props.update(dt));
       return null;
     }
-    
+
     return (
-      <Canvas orthographic={false}>
-        <Lights/>
-        <Provider store={this.props.store}>
-          <Ships/>
-          <Projectiles/>
-        </Provider>
-        <Camera/>
-        <Effects/>
-        <TimeKeeper/>
-      </Canvas>
+      <div id="root" onKeyDown={this.props.keyHandler} onKeyUp={this.props.keyHandler} tabIndex="0">
+        <Canvas orthographic={false}>
+          <Lights/>
+          <Provider store={this.props.store}>
+            <Ships/>
+            <Projectiles/>
+          </Provider>
+          <Camera/>
+          <Effects/>
+          <TimeKeeper/>
+        </Canvas>
+      </div>
     );
   }
 }
