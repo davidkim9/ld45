@@ -1,9 +1,7 @@
 import * as Three from 'three';
 import { BloomEffect, EffectComposer, EffectPass, RenderPass, KernelSize } from "postprocessing";
 
-import { createCube } from '../util/create-cube';
-import { createColorMaterial } from '../util/create-color-material';
-
+import { Ship } from '../geometry/ship';
 
 export class RenderController {
   constructor(canvas, timeManager) {
@@ -44,11 +42,14 @@ export class RenderController {
     this.composer.addPass(effectPass);
   }
 
-  addGeometry() {
+  addGeometry(geometry) {
+    this.scene.add(geometry.getMesh());
+  }
+
+  addScene() {
     let container = new Three.Group();
     
-    this.scene.add(createCube(0.25, createColorMaterial(0x6dd400)));
-
+    this.addGeometry(new Ship());
     this.scene.add(container);
     this.sceneContainer = container;
   }
@@ -62,7 +63,7 @@ export class RenderController {
     this.addBaseLighting();
     this.addCamera();
     this.addEffects();
-    this.addGeometry();
+    this.addScene();
   }
 
   render(dt) {
