@@ -12,5 +12,5 @@ export function getProjectilePosition(projectile, time) {
   velocity.normalize();
   position.addScaledVector(velocity, deltaTime * speed);
 
-  return position.toArray();
+  return position;
 }

@@ -29,5 +29,6 @@ export default class MainController {
   update(dt) {
     let currentTime = getTime(this.store.getState());
     this.store.dispatch(setTime(currentTime + dt));
+    this.gameController.update(dt);
   }
 }
