@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux'
-import { Canvas } from 'react-three-fiber';
+import { Canvas, useFrame } from 'react-three-fiber';
 
 import { Camera } from './three/camera';
 import { Effects } from './three/effects';
@@ -14,9 +14,13 @@ export class Root extends React.Component {
   }
 
   render() {
-    let entities = [{}, {}];
+    let TimeKeeper = () => {
+      useFrame((state, dt) => this.props.update(dt));
+      return null;
+    }
+    
     return (
-      <Canvas orthographic={true}>
+      <Canvas orthographic={false}>
         <Lights/>
         <Provider store={this.props.store}>
           <Ships/>
@@ -24,6 +28,7 @@ export class Root extends React.Component {
         </Provider>
         <Camera/>
         <Effects/>
+        <TimeKeeper/>
       </Canvas>
     );
   }
