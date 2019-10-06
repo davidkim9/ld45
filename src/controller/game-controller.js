@@ -95,12 +95,14 @@ export class GameController {
     }));
     
     // TODO Add type to create non linear projectiles
-    this.store.dispatch(addProjectile({
-      id: 0,
-      position: [3.2, 0, 0],
-      direction: [-1, 0, 0],
-      time: getTime(this.store.getState())
-    }));
+    setInterval(()=>{
+      this.store.dispatch(addProjectile({
+        id: Math.random(),
+        position: [2, 0, 0],
+        direction: [-1, 0, 0],
+        time: getTime(this.store.getState())
+      }));
+    }, 100);
   }
 
   update(dt) {
@@ -114,8 +116,9 @@ export class GameController {
         let shipChanged = false;
         for (let i = 0; i < hitTiles.length; i++) {
           let hit = hitTiles[i];
+          let hitTime = projectile.time + hit.t;
           // Register hits if it lands between the last frame and this frame
-          if (hit.t < time && hit.t > time - dt) {
+          if (hitTime < time && hitTime > time - dt) {
             shipChanged = true;
             newSchematic[hit.y][hit.x] = 0;
           }
