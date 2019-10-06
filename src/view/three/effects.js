@@ -1,5 +1,4 @@
 import { BloomEffect, BlurPass, EffectComposer, EffectPass, RenderPass, KernelSize } from "postprocessing";
-import React, { useRef } from 'react';
 import { extend, useFrame, useThree } from 'react-three-fiber';
 
 extend({BlurPass, EffectComposer, EffectPass, RenderPass});

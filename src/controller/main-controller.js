@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { setEntities } from '../action/actions';
 import { Logger } from '../util/logger';
 import { getTime } from '../model/selector/selectors';
 import { getNewStore, getInitialState } from '../model/store';
@@ -21,10 +22,14 @@ export default class MainController {
     this.timeManager.register(dt => this.update(dt));
     this.timeManager.start();
     this.render();
+
+    setTimeout(()=>{
+this.store.dispatch(setEntities([{}]));
+    }, 2000);
   }
 
   render() {
-    ReactDOM.render(<Root/>, document.getElementById('container'));
+    ReactDOM.render(<Root store={this.store}/>, document.getElementById('container'));
   }
 
   update(dt) {

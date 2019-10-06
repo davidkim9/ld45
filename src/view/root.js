@@ -1,10 +1,11 @@
 import React from 'react';
+import { Provider } from 'react-redux'
 import { Canvas } from 'react-three-fiber';
-import * as Three from 'three';
 
-import { Camera } from './camera';
-import { Effects } from './effects';
-import { Lights } from './lights';
+import { Camera } from './three/camera';
+import { Effects } from './three/effects';
+import Entities from './three/entities';
+import { Lights } from './three/lights';
 
 export class Root extends React.Component {
   constructor(props, context) {
@@ -12,13 +13,13 @@ export class Root extends React.Component {
   }
 
   render() {
+    let entities = [{}, {}];
     return (
       <Canvas orthographic={true}>
         <Lights/>
-        <mesh position={[0, 0, 0]}>
-          <boxGeometry args={[0.1, 0.1, 0.1]} attach="geometry"/>
-          <meshLambertMaterial args={[{color: 0x6dd400, side: Three.FrontSide}]} attach="material" />
-        </mesh>
+        <Provider store={this.props.store}>
+          <Entities/>
+        </Provider>
         <Camera/>
         <Effects/>
       </Canvas>
