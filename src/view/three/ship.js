@@ -38,7 +38,7 @@ function getShipPart(type) {
 
 export const Ship = ({ ship }) => {
   let schematic = ship.schematic;
-
+console.log('Invoke Ship', ship);
   let gridSize = 0.03;
   let coreX = 3;
   let coreY = 2;

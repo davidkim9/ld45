@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux'
 import { Canvas, useFrame } from 'react-three-fiber';
 
-import { Camera } from './three/camera';
+import Camera from './three/camera';
 import { Effects } from './three/effects';
 import { Lights } from './three/lights';
 import Projectiles from './three/projectiles';
@@ -26,8 +26,8 @@ export class Root extends React.Component {
           <Provider store={this.props.store}>
             <Ships/>
             <Projectiles/>
+            <Camera/>
           </Provider>
-          <Camera/>
           <Effects/>
           <TimeKeeper/>
         </Canvas>
