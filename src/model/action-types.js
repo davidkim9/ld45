@@ -1,5 +1,3 @@
-export const EFFECTS_DID_CHANGE = 'effectsDidChange';
-
 export const MOVE_DIRECTION_DID_CHANGE = 'moveDirectionDidChange';
 
 export const PLAYER_SHIP_ID_DID_CHANGE = 'playerShipIdDidChange';

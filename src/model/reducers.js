@@ -1,14 +1,5 @@
 import * as ActionTypes from './action-types';
 
-export function effects(state, action) {
-  switch (action.type) {
-    case ActionTypes.EFFECTS_DID_CHANGE:
-      return action.payload;
-    default:
-      return state;
-  }
-}
-
 export function moveDirection(state, action) {
   switch (action.type) {
     case ActionTypes.MOVE_DIRECTION_DID_CHANGE:
