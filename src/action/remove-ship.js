@@ -1,5 +1,4 @@
 import { setShips } from './actions';
-import { removeById } from '../util/remove-by-id';
 import { getShips } from '../model/selector/selectors';
 
 export function removeShip(id) {

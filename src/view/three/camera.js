@@ -8,8 +8,11 @@ export const Camera = ({ playerShip }) => {
   const { camera, scene, viewport } = useThree();
   let playerPosition = new Vector3();
   if (playerShip !== undefined) {
+    let playerVelocity = new Vector3();
+    playerVelocity.fromArray(playerShip.velocity);
     playerPosition.fromArray(playerShip.position);
-    camera.position.set(playerShip.position[0], 3, playerShip.position[2]);
+    camera.position.set(playerShip.position[0], 2 + playerVelocity.length() * 50, playerShip.position[2]);
+    // camera.position.set(playerShip.position[0] + 1, 2, playerShip.position[2] + 1);
   }
   let aspect = viewport.width / viewport.height;
   let D = 1;

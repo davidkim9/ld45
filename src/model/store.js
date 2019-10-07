@@ -22,7 +22,14 @@ export function getInitialState() {
     moveDirection: null,
     playerShipId: 0,
     projectiles: {},
-    powerups: {},
+    powerups: {
+      0: {
+        id: 0,
+        owner: 2,
+        position: [0, 0, 1],
+        type: 3
+      }
+    },
     ships: {},
     time: 0
   };

@@ -5,6 +5,7 @@ import { Canvas, useFrame } from 'react-three-fiber';
 import Camera from './three/camera';
 import { Effects } from './three/effects';
 import { Lights } from './three/lights';
+import Powerups from './three/powerups';
 import Projectiles from './three/projectiles';
 import Ships from './three/ships';
 import { Stars } from './three/stars';
@@ -26,6 +27,7 @@ export class Root extends React.Component {
           <Lights/>
           <Provider store={this.props.store}>
             <Ships/>
+            <Powerups/>
             <Projectiles/>
             <Stars/>
             <Camera/>

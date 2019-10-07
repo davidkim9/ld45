@@ -34,7 +34,7 @@ export class PlayerController {
       rotate -= 1 * Math.PI / 180;
     }
     direction.normalize();
-    direction.multiplyScalar(0.0001);
+    direction.multiplyScalar(0.0002);
 
     this.store.dispatch(setMoveDirection({x: direction.x, y: direction.y, rotation: rotate}));
   }

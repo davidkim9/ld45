@@ -1,6 +1,6 @@
 import React from 'react';
-import * as Three from 'three';
+import { FrontSide } from 'three';
 
 export const MaterialColor = ({color}) => {
-  return <meshLambertMaterial args={[{color, side: Three.FrontSide}]} attach="material" />
+  return <meshLambertMaterial args={[{color, side: FrontSide}]} attach="material" />
 }
