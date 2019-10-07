@@ -1,8 +1,15 @@
 import * as ActionTypes from '../model/action-types';
 
-export function setEffects(state) {
+export function setMoveDirection(state) {
   return {
-    type: ActionTypes.EFFECTS_DID_CHANGE,
+    type: ActionTypes.MOVE_DIRECTION_DID_CHANGE,
+    payload: state
+  };
+}
+
+export function setPlayerShipId(state) {
+  return {
+    type: ActionTypes.PLAYER_SHIP_ID_DID_CHANGE,
     payload: state
   };
 }

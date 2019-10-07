@@ -19,9 +19,11 @@ export function getNewStore(initialState) {
 
 export function getInitialState() {
   let state = {
-    effects: [],
-    projectiles: [],
-    ships: [],
+    moveDirection: null,
+    playerShipId: 0,
+    projectiles: {},
+    // TODO Change this into object
+    ships: {},
     time: 0
   };
 

@@ -1,12 +1,10 @@
 import { createSelector} from 'reselect';
 
-import { getShips } from './selectors';
+import { getShips, getPlayerShipId } from './selectors';
 
 export function getPlayerShip() {
   return createSelector(
-    getShips,
-    (ships) => {
-      return ships[0];
-    }
+    getShips, getPlayerShipId,
+    (ships, playerShipId) => ships[playerShipId]
   );
 }

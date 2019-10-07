@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from "react-redux";
 
 import { Cube } from './cube';
+import { getShip } from '../../model/selector/get-ship';
 import { MaterialColor } from './material-color';
 import { MaterialFlatColor } from './material-flat-color';
 
@@ -34,11 +36,17 @@ function getShipPart(type) {
         <MaterialColor color={0x23232B}/>
       </>
     );
+  if (type === 3) 
+    return (
+      <>
+        <Cube size={ShipSize.PART}/>
+        <MaterialColor color={0x00dd00}/>
+      </>
+    );
 }
 
 export const Ship = ({ ship }) => {
   let schematic = ship.schematic;
-console.log('Invoke Ship', ship);
   let gridSize = 0.03;
   let coreX = 3;
   let coreY = 2;
@@ -77,7 +85,17 @@ console.log('Invoke Ship', ship);
     }
   }
 
-  return <group>
+  return (<group rotation={[0, ship.rotation, 0]} position={ship.position}>
     {shipParts}
-  </group>;
+  </group>);
 }
+
+export default connect((state, props) => {
+  let shipSelector = getShip(props.shipIdentity);
+
+  return state => {
+    return {
+      ship: shipSelector(state)
+    };
+  };
+})(Ship);

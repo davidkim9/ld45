@@ -1,4 +1,6 @@
-export const getEffects = state => state.effects;
+export const getMoveDirection = state => state.moveDirection;
+
+export const getPlayerShipId = state => state.playerShipId;
 
 export const getProjectiles = state => state.projectiles;
 

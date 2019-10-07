@@ -1,12 +1,11 @@
 import { setShips } from './actions';
-import { removeById } from '../util/remove-by-id';
 import { getShips } from '../model/selector/selectors';
 
-export function removeShip(id) {
+export function setShip(id, ship) {
   return (dispatch, getState) => {
     let ships = {...getShips(getState())};
 
-    delete ships[id];
+    ships[id] = ship;
     dispatch(setShips(ships));
   };
 }

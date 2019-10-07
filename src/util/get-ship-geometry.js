@@ -1,6 +1,6 @@
 import { Box3, Vector3 } from 'three';
 
-export function getShipGeometry(schematic) {
+export function getShipGeometry(schematic, transform) {
   let geometry = [];
   let gridSize = 0.03;
   let halfGridSize = gridSize / 2;
@@ -22,6 +22,8 @@ export function getShipGeometry(schematic) {
         min.add(position);
         max.add(position);
         partBox = new Box3(min, max);
+        // Transform to world coordinates
+        partBox.applyMatrix4(transform);
       }
       geometryRow[j] = partBox;
     }
