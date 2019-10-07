@@ -7,6 +7,7 @@ import { Effects } from './three/effects';
 import { Lights } from './three/lights';
 import Projectiles from './three/projectiles';
 import Ships from './three/ships';
+import { Stars } from './three/stars';
 
 export class Root extends React.Component {
   constructor(props, context) {
@@ -26,6 +27,7 @@ export class Root extends React.Component {
           <Provider store={this.props.store}>
             <Ships/>
             <Projectiles/>
+            <Stars/>
             <Camera/>
           </Provider>
           <Effects/>

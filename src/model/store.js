@@ -22,7 +22,7 @@ export function getInitialState() {
     moveDirection: null,
     playerShipId: 0,
     projectiles: {},
-    // TODO Change this into object
+    powerups: {},
     ships: {},
     time: 0
   };

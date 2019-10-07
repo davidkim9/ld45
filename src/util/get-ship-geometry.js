@@ -6,6 +6,7 @@ export function getShipGeometry(schematic, transform) {
   let halfGridSize = gridSize / 2;
   let coreX = 3;
   let coreY = 2;
+  // TODO Calculate coreX, coreY
   let partBox, type, x, y;
 
   for (let i = 0; i < schematic.length; i++) {

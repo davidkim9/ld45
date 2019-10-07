@@ -61,7 +61,7 @@ export class GameController {
     ship.rotation += playerMoveDirection.rotation;
   }
 
-  checkCollision(ship, shipGeometry, projectile) {
+  checkCollision(shipGeometry, projectile) {
     let hitTiles = [];
     
     // TODO Add a way to check bounding box of ship schematic before performing independent collision checks
@@ -99,7 +99,8 @@ export class GameController {
     // Check Projectile Collision
     for (let projectile of projectileList) {
       if (projectile.owner !== ship.id) {
-        let hitTiles = this.checkCollision(ship, shipGeometry, projectile);
+        let hitTiles = this.checkCollision(shipGeometry, projectile);
+        // Copy 2D Array
         let newSchematic = ship.schematic.map(arr => [...arr]);
         let shipChanged = false;
         for (let i = 0; i < hitTiles.length; i++) {
@@ -109,6 +110,7 @@ export class GameController {
           if (hitTime < time && hitTime > time - dt) {
             shipChanged = true;
             newSchematic[hit.y][hit.x] = 0;
+            // TODO Add a way to drop powerups for other ships
           }
         }
         if (shipChanged === true) {
@@ -158,6 +160,7 @@ export class GameController {
                 target.sub(weaponPosition);
                 target.normalize();
                 this.store.dispatch(addProjectile({
+                  // TODO Find a better way to get projectile id
                   id: Math.random(),
                   owner: ship.id,
                   position: weaponPosition.toArray(),
@@ -180,6 +183,8 @@ export class GameController {
     let playerShipId = getPlayerShipId(state);
     let ships = getShips(state);
 
+    // TODO Add AI loop
+
     let shipList = Object.values(ships);
     for (let ship of shipList) {
       // Handle Ship Movement
@@ -194,9 +199,12 @@ export class GameController {
       transform.setPosition(nextShip.position[0], nextShip.position[1], nextShip.position[2]);
       let shipGeometry = getShipGeometry(nextShip.schematic, transform);
 
-      this.store.dispatch(setShip(nextShip.id, nextShip));
       this.collideWithProjectiles(time, dt, nextShip, shipGeometry);
       this.triggerShipWeapons(time, dt, nextShip, shipGeometry);
+
+      // TODO Check if this ship has a core
+      // TODO Add a way to pick up powerups
+      this.store.dispatch(setShip(nextShip.id, nextShip));
     }
     
     // Remove expired projectiles

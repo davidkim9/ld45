@@ -14,6 +14,13 @@ export function setPlayerShipId(state) {
   };
 }
 
+export function setPowerups(state) {
+  return {
+    type: ActionTypes.POWERUPS_DID_CHANGE,
+    payload: state
+  };
+}
+
 export function setProjectiles(state) {
   return {
     type: ActionTypes.PROJECTILES_DID_CHANGE,

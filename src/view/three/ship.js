@@ -48,6 +48,7 @@ function getShipPart(type) {
 export const Ship = ({ ship }) => {
   let schematic = ship.schematic;
   let gridSize = 0.03;
+  // TODO Calculate coreX, coreY
   let coreX = 3;
   let coreY = 2;
   let shipParts = [];
