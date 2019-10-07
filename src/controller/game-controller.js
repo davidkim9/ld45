@@ -160,7 +160,6 @@ export class GameController {
           if (hitTime < time && hitTime > time - dt) {
             shipChanged = true;
             newSchematic[hit.y][hit.x] = 0;
-            // TODO Add a way to drop powerups for other ships
             let box = shipGeometry[hit.y][hit.x];
             let powerupPosition = new Vector3();
             box.getCenter(powerupPosition);
@@ -173,6 +172,7 @@ export class GameController {
         }
         if (shipChanged === true) {
           ship.schematic = newSchematic;
+          // TODO The ship should have some acceleration added from the projectile
           this.store.dispatch(removeProjectile(projectile.id));
         }
       }
@@ -225,7 +225,7 @@ export class GameController {
 
   triggerShipWeapons(time, dt, ship, shipGeometry) {
     // TODO Split this method
-    // TODO Register bullets to be processed outside the ship loop
+    // TODO Register bullets to be processed outside the ship loop all at once so projectiles don't need to be rerendered
     // Weapon Tick
     let tickTime = 1;
     if (Math.floor(time / tickTime) !== Math.floor((time - dt)/ tickTime)){
@@ -278,11 +278,10 @@ export class GameController {
       this.collideWithProjectiles(time, dt, nextShip, shipGeometry);
       this.triggerShipWeapons(time, dt, nextShip, shipGeometry);
 
-      // TODO Check if this ship has a core
       let core = getShipCore(nextShip.schematic);
       if (core === null) {
-        // TODO Turn ship into powerups
         this.createPowerups(nextShip, shipGeometry);
+        // TODO Add explosion
         this.store.dispatch(removeShip(nextShip.id));
       } else {
         this.collideWithPowerups(nextShip, shipGeometry);

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import { Cube } from './cube';
 import { getShip } from '../../model/selector/get-ship';
+import { getShipCore } from '../../util/get-ship-core';
 import { MaterialColor } from './material-color';
 import { MaterialFlatColor } from './material-flat-color';
 
@@ -48,17 +49,15 @@ function getShipPart(type) {
 export const Ship = ({ ship }) => {
   let schematic = ship.schematic;
   let gridSize = 0.03;
-  // TODO Calculate coreX, coreY
-  let coreX = 3;
-  let coreY = 2;
+  let core = getShipCore(schematic);
   let shipParts = [];
   let top, left, connector, connectorMesh, part, partMesh, type, x, y;
 
   for (let i = 0; i < schematic.length; i++) {
     for (let j = 0; j < schematic[i].length; j++) {
       type = schematic[i][j];
-      x = j - coreX;
-      y = i - coreY;
+      x = j - core.x;
+      y = i - core.y;
 
       if (type !== 0) {
         part = getShipPart(type);

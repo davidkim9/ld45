@@ -3,6 +3,7 @@ import { Provider } from 'react-redux'
 import { Canvas, useFrame } from 'react-three-fiber';
 
 import Camera from './three/camera';
+import { Debris } from './three/debris';
 import { Effects } from './three/effects';
 import { Lights } from './three/lights';
 import Powerups from './three/powerups';
@@ -30,6 +31,7 @@ export class Root extends React.Component {
             <Powerups/>
             <Projectiles/>
             <Stars/>
+            <Debris/>
             <Camera/>
           </Provider>
           <Effects/>
